@@ -55,7 +55,7 @@ func WithOptions(opts ...zap.Option) {
 // WithCallerSkip increases the number of callers skipped by caller annotation
 // (as enabled by the AddCaller option).
 func WithCallerSkip(skip int) {
-	logger = logger.WithOptions(zap.AddCallerSkip(skip + 1))
+	logger = logger.WithOptions(zap.AddCallerSkip(skip))
 }
 
 // With creates a child logger and adds structured context to it. Fields added
