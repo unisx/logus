@@ -25,10 +25,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/alimy/logus/internal/bufferpool"
+	"github.com/unisx/logus/internal/bufferpool"
 )
 
-const _logusPackage = "github.com/alimy/logus"
+const _logusPackage = "github.com/unisx/logus"
 
 var (
 	_stacktracePool = sync.Pool{

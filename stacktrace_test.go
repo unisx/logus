@@ -42,12 +42,12 @@ func TestTakeStacktrace(t *testing.T) {
 
 func TestIsLogusFrame(t *testing.T) {
 	zapFrames := []string{
-		"github.com/alimy/logus.Stack",
-		"github.com/alimy/logus.(*SugaredLogger).log",
-		"github.com/alimy/logus/zapcore.(ArrayMarshalerFunc).MarshalLogArray",
-		"github.com/uber/tchannel-go/vendor/github.com/alimy/logus.Stack",
-		"github.com/uber/tchannel-go/vendor/github.com/alimy/logus.(*SugaredLogger).log",
-		"github.com/uber/tchannel-go/vendor/github.com/alimy/logus.(ArrayMarshalerFunc).MarshalLogArray",
+		"github.com/unisx/logus.Stack",
+		"github.com/unisx/logus.(*SugaredLogger).log",
+		"github.com/unisx/logus/zapcore.(ArrayMarshalerFunc).MarshalLogArray",
+		"github.com/uber/tchannel-go/vendor/github.com/unisx/logus.Stack",
+		"github.com/uber/tchannel-go/vendor/github.com/unisx/logus.(*SugaredLogger).log",
+		"github.com/uber/tchannel-go/vendor/github.com/unisx/logus.(ArrayMarshalerFunc).MarshalLogArray",
 	}
 	nonZapFrames := []string{
 		"github.com/uber/tchannel-go.NewChannel",
