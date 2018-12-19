@@ -1,27 +1,29 @@
 package logus
 
 import (
-	"go.uber.org/zap"
 	"time"
 )
 
 func ExampleDebug() {
-	Debug("Debug level message", zap.Time("time", time.Now().Local()))
+	Debug("Debug level message",
+		Time("time", time.Now().Local()),
+		Ints("Ints", 1, 2),
+		Any("Any", []int{1, 2}))
 	// Output:
 }
 
 func ExampleInfo() {
-	Info("Info level message", zap.Time("time", time.Now().Local()))
+	Info("Info level message", Time("time", time.Now().Local()))
 	// Output:
 }
 
 func ExampleWarn() {
-	Warn("Warn level message", zap.Time("time", time.Now().Local()))
+	Warn("Warn level message", Time("time", time.Now().Local()))
 	// Output:
 }
 
 func ExampleError() {
-	Error("Error level message", zap.Time("time", time.Now().Local()))
+	Error("Error level message", Time("time", time.Now().Local()))
 	// Output:
 }
 
@@ -30,7 +32,7 @@ func ExampleDPanic() {
 		recover()
 	}()
 
-	DPanic("DPanic level message", zap.Time("time", time.Now().Local()))
+	DPanic("DPanic level message", Time("time", time.Now().Local()))
 	// Output:
 }
 
@@ -39,11 +41,11 @@ func ExamplePanic() {
 		recover()
 	}()
 
-	Panic("Panic level message", zap.Time("time", time.Now().Local()))
+	Panic("Panic level message", Time("time", time.Now().Local()))
 	// Output:
 }
 
 func ExampleFatal() {
-	Error("Fatal level message", zap.Time("time", time.Now().Local()))
+	Error("Fatal level message", Time("time", time.Now().Local()))
 	// Output:
 }

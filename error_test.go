@@ -44,7 +44,7 @@ func TestErrorConstructors(t *testing.T) {
 		{"NamedError", Skip(), NamedError("foo", nil)},
 		{"NamedError", Field{Key: "foo", Type: zapcore.ErrorType, Interface: fail}, NamedError("foo", fail)},
 		{"Any:Error", Any("k", errors.New("v")), NamedError("k", errors.New("v"))},
-		{"Any:Errors", Any("k", []error{errors.New("v")}), Errors("k", []error{errors.New("v")})},
+		{"Any:Errors", Any("k", []error{errors.New("v")}), Errors("k", errors.New("v"))},
 	}
 
 	for _, tt := range tests {
@@ -61,10 +61,10 @@ func TestErrorArrayConstructor(t *testing.T) {
 		field    Field
 		expected []interface{}
 	}{
-		{"empty errors", Errors("", []error{}), []interface{}{}},
+		{"empty errors", Errors(""), []interface{}{}},
 		{
 			"errors",
-			Errors("", []error{nil, errors.New("foo"), nil, errors.New("bar")}),
+			Errors("", nil, errors.New("foo"), nil, errors.New("bar")),
 			[]interface{}{map[string]interface{}{"error": "foo"}, map[string]interface{}{"error": "bar"}},
 		},
 	}
@@ -82,7 +82,7 @@ func TestErrorsArraysHandleRichErrors(t *testing.T) {
 	errs := []error{richErrors.New("egad")}
 
 	enc := zapcore.NewMapObjectEncoder()
-	Errors("k", errs).AddTo(enc)
+	Errors("k", errs...).AddTo(enc)
 	assert.Equal(t, 1, len(enc.Fields), "Expected only top-level field.")
 
 	val := enc.Fields["k"]
