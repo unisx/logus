@@ -4,17 +4,23 @@ import "go.uber.org/zap"
 
 var logger *zap.Logger
 
+type (
+	Config = zap.Config
+	Option = zap.Option
+	Field  = zap.Field
+)
+
 func init() {
 	InDevelopment(zap.Development(), zap.AddCaller(), zap.AddCallerSkip(1))
 }
 
-func newDevelopmentConfig() zap.Config {
+func newDevelopmentConfig() Config {
 	config := zap.NewDevelopmentConfig()
 	config.DisableCaller = true
 	return config
 }
 
-func newProductionConfig() zap.Config {
+func newProductionConfig() Config {
 	config := zap.NewProductionConfig()
 	config.DisableCaller = true
 	return config
@@ -26,7 +32,7 @@ func newProductionConfig() zap.Config {
 // It enables development mode (which makes DPanicLevel logs panic), uses a
 // console encoder, writes to standard error, and disables sampling.
 // StackTraces are automatically included on logs of WarnLevel and above.
-func InDevelopment(opts ...zap.Option) {
+func InDevelopment(opts ...Option) {
 	var err error
 	logger, err = newDevelopmentConfig().Build(opts...)
 	if err != nil {
@@ -39,7 +45,7 @@ func InDevelopment(opts ...zap.Option) {
 //
 // It uses a JSON encoder, writes to standard error, and enables sampling.
 // StackTraces are automatically included on logs of ErrorLevel and above.
-func InProduction(opts ...zap.Option) {
+func InProduction(opts ...Option) {
 	var err error
 	logger, err = newProductionConfig().Build(opts...)
 	if err != nil {
@@ -48,7 +54,7 @@ func InProduction(opts ...zap.Option) {
 }
 
 // WithOptions applies the supplied Options.
-func WithOptions(opts ...zap.Option) {
+func WithOptions(opts ...Option) {
 	logger = logger.WithOptions(opts...)
 }
 
@@ -60,7 +66,7 @@ func WithCallerSkip(skip int) {
 
 // With creates a child logger and adds structured context to it. Fields added
 // to the child don't affect the parent, and vice versa.
-func With(fields ...zap.Field) {
+func With(fields ...Field) {
 	logger = logger.With(fields...)
 }
 
@@ -72,25 +78,25 @@ func Named(s string) {
 
 // Debug logs a message at DebugLevel. The message includes any fields passed
 // at the log site, as well as any fields accumulated on the logger.
-func Debug(msg string, fields ...zap.Field) {
+func Debug(msg string, fields ...Field) {
 	logger.Debug(msg, fields...)
 }
 
 // Info logs a message at InfoLevel. The message includes any fields passed
 // at the log site, as well as any fields accumulated on the logger.
-func Info(msg string, fields ...zap.Field) {
+func Info(msg string, fields ...Field) {
 	logger.Info(msg, fields...)
 }
 
 // Warn logs a message at WarnLevel. The message includes any fields passed
 // at the log site, as well as any fields accumulated on the logger.
-func Warn(msg string, fields ...zap.Field) {
+func Warn(msg string, fields ...Field) {
 	logger.Warn(msg, fields...)
 }
 
 // Error logs a message at ErrorLevel. The message includes any fields passed
 // at the log site, as well as any fields accumulated on the logger.
-func Error(msg string, fields ...zap.Field) {
+func Error(msg string, fields ...Field) {
 	logger.Error(msg, fields...)
 }
 
@@ -100,7 +106,7 @@ func Error(msg string, fields ...zap.Field) {
 // If the logger is in development mode, it then panics (DPanic means
 // "development panic"). This is useful for catching errors that are
 // recoverable, but shouldn't ever happen.
-func DPanic(msg string, fields ...zap.Field) {
+func DPanic(msg string, fields ...Field) {
 	logger.DPanic(msg, fields...)
 }
 
@@ -109,7 +115,7 @@ func DPanic(msg string, fields ...zap.Field) {
 //
 // The logger then calls os.Exit(1), even if logging at FatalLevel is
 // disabled.
-func Panic(msg string, fields ...zap.Field) {
+func Panic(msg string, fields ...Field) {
 	logger.Panic(msg, fields...)
 }
 
@@ -118,7 +124,7 @@ func Panic(msg string, fields ...zap.Field) {
 //
 // The logger then calls os.Exit(1), even if logging at FatalLevel is
 // disabled.
-func Fatal(msg string, fields ...zap.Field) {
+func Fatal(msg string, fields ...Field) {
 	logger.Fatal(msg, fields...)
 }
 
