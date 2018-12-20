@@ -39,8 +39,8 @@ func TestErrorConstructors(t *testing.T) {
 		field  Field
 		expect Field
 	}{
-		{"Error", Skip(), ErrorF(nil)},
-		{"Error", Field{Key: "error", Type: zapcore.ErrorType, Interface: fail}, ErrorF(fail)},
+		{"Error", Skip(), ErrorField(nil)},
+		{"Error", Field{Key: "error", Type: zapcore.ErrorType, Interface: fail}, ErrorField(fail)},
 		{"NamedError", Skip(), NamedError("foo", nil)},
 		{"NamedError", Field{Key: "foo", Type: zapcore.ErrorType, Interface: fail}, NamedError("foo", fail)},
 		{"Any:Error", Any("k", errors.New("v")), NamedError("k", errors.New("v"))},
