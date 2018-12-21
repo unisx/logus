@@ -31,7 +31,13 @@ var _errArrayElemPool = sync.Pool{New: func() interface{} {
 }}
 
 // ErrorF is shorthand for the common idiom NamedError("error", err).
+// Deprecated: use ErrorField make more semantic sense.
 func ErrorF(err error) Field {
+	return NamedError("error", err)
+}
+
+// ErrorField is shorthand for the common idiom NamedError("error", err).
+func ErrorField(err error) Field {
 	return NamedError("error", err)
 }
 
