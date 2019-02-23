@@ -110,7 +110,7 @@ func DPanic(msg string, fields ...Field) {
 	logger.DPanic(msg, fields...)
 }
 
-// Fatal logs a message at FatalLevel. The message includes any fields passed
+// Panic logs a message at PanicLevel. The message includes any fields passed
 // at the log site, as well as any fields accumulated on the logger.
 //
 // The logger then calls os.Exit(1), even if logging at FatalLevel is
@@ -126,6 +126,48 @@ func Panic(msg string, fields ...Field) {
 // disabled.
 func Fatal(msg string, fields ...Field) {
 	logger.Fatal(msg, fields...)
+}
+
+// E logs a message at ErrorLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func E(msg string, err error, fields ...Field) {
+	mergedFileds := []Field{NamedError("error", err)}
+	mergedFileds = append(mergedFileds, fields...)
+	logger.Error(msg, mergedFileds...)
+}
+
+// DP logs a message at DPanicLevel. The message includes any fields
+// passed at the log site, as well as any fields accumulated on the logger.
+//
+// If the logger is in development mode, it then panics (DPanic means
+// "development panic"). This is useful for catching errors that are
+// recoverable, but shouldn't ever happen.
+func DP(msg string, err error, fields ...Field) {
+	mergedFileds := []Field{NamedError("error", err)}
+	mergedFileds = append(mergedFileds, fields...)
+	logger.DPanic(msg, mergedFileds...)
+}
+
+// P logs a message at PanicLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+//
+// The logger then calls os.Exit(1), even if logging at FatalLevel is
+// disabled.
+func P(msg string, err error, fields ...Field) {
+	mergedFileds := []Field{NamedError("error", err)}
+	mergedFileds = append(mergedFileds, fields...)
+	logger.Panic(msg, mergedFileds...)
+}
+
+// F logs a message at FatalLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+//
+// The logger then calls os.Exit(1), even if logging at FatalLevel is
+// disabled.
+func F(msg string, err error, fields ...Field) {
+	mergedFileds := []Field{NamedError("error", err)}
+	mergedFileds = append(mergedFileds, fields...)
+	logger.Fatal(msg, mergedFileds...)
 }
 
 // Sync calls the underlying Core's Sync method, flushing any buffered log
